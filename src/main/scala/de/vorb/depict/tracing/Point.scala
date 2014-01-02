@@ -14,10 +14,19 @@ case class Point[T](x: T, y: T)(implicit num: Numeric[T]) {
     val yDiff = num.toDouble(y) - num.toDouble(other.y)
     math.sqrt(xDiff * xDiff + yDiff * yDiff)
   }
+
+  override def toString = s"($x, $y)"
 }
 
 object Point {
-  implicit class RichPoint[T](val point: Point[T]) {
-    def isVertex()
+  implicit class RichPoint(val p: Point[Int]) {
+    def isVertex(img: Bitmap) = {
+      val nw = img(p.x - 1, p.y - 1)
+      val ne = img(p.x, p.y - 1)
+      val se = img(p.x, p.y)
+      val sw = img(p.x - 1, p.y)
+
+      (nw.argb ^ ne.argb ^ se.argb ^ sw.argb) != 0
+    }
   }
 }

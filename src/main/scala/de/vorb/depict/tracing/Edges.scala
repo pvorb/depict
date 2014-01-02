@@ -1,6 +1,6 @@
 package de.vorb.depict.tracing
 
-object Edge {
+object Edges {
 
   /**
    * Determines if two points a and b form an edge.

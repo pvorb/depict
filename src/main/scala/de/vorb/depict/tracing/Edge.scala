@@ -1,33 +1,20 @@
 package de.vorb.depict.tracing
 
-/**
- *
- */
-case class Edge(v: Corner, w: Corner) {
-  require((v distance w) <= 1.0d, "distance between vertices > 1")
-  require(v.isVertex, "v not a vertex")
-  require(w.isVertex, "w not a vertex")
+object Edge {
 
-  val direction: Direction =
-    if (v.x > w.x) Direction.Left
-    else if (v.x < w.x) Direction.Right
-    else if (v.y > w.y) Direction.Down
-    else Direction.Up
-
-  // ensure that the edge has a black pixel on its left and a white pixel on its
-  // right.
-  direction match {
-    case Direction.Left =>
-      require(v.sw.color == Color.Black, "left pixel white")
-      require(v.nw.color == Color.White, "right pixel black")
-    case Direction.Right =>
-      require(v.ne.color == Color.Black, "left pixel white")
-      require(v.se.color == Color.White, "right pixel black")
-    case Direction.Down =>
-      require(v.se.color == Color.Black, "left pixel white")
-      require(v.sw.color == Color.White, "right pixel black")
-    case Direction.Up =>
-      require(v.nw.color == Color.Black, "left pixel white")
-      require(v.ne.color == Color.White, "right pixel black")
+  /**
+   * Determines if two points a and b form an edge.
+   */
+  def isEdge(a: Point[Int], b: Point[Int])(img: Bitmap): Boolean = {
+    if ((a distanceTo b) != 1)
+      false
+    else if (a.x < b.x)
+      img(a.x, a.y - 1).isBlack && img(a.x, a.y).isWhite
+    else if (a.x > b.x)
+      img(b.x, b.y).isBlack && img(b.x, b.y - 1).isWhite
+    else if (a.y < b.y)
+      img(b.x - 1, b.y).isBlack && img(b.x, b.y).isWhite
+    else
+      img(a.x, a.y).isBlack && img(a.x - 1, a.y).isWhite
   }
 }

@@ -1,11 +1,13 @@
 package de.vorb.depict.tracing
 
-object Edges {
+case class Edge(from: Point[Int], to: Point[Int])
+
+object Edge {
 
   /**
    * Determines if two points a and b form an edge.
    */
-  def isEdge(a: Point[Int], b: Point[Int])(img: Bitmap): Boolean = {
+  def isEdge(a: Point[Int], b: Point[Int])(implicit img: Bitmap): Boolean = {
     if ((a distanceTo b) != 1)
       false
     else if (a.x < b.x)

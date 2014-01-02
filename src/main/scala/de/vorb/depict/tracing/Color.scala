@@ -1,8 +1,9 @@
 package de.vorb.depict.tracing
 
-sealed trait Color
+class Color(val argb: Int) extends AnyVal
 
 object Color {
-  case object White extends Color
-  case object Black extends Color
+  def apply(argb: Int) = new Color(argb)
+  val white = Color(0xFFFFFFFF)
+  val black = Color(0xFF000000)
 }

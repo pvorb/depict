@@ -16,8 +16,8 @@ case class Point[T](x: T, y: T)(implicit num: Numeric[T]) {
   }
 
   def maxDistanceTo(other: Point[T]): Double = {
-    val xDiff = num.toDouble(x) - num.toDouble(other.x)
-    val yDiff = num.toDouble(y) - num.toDouble(other.y)
+    val xDiff = math.abs(num.toDouble(x) - num.toDouble(other.x))
+    val yDiff = math.abs(num.toDouble(y) - num.toDouble(other.y))
     math.max(xDiff, yDiff)
   }
 

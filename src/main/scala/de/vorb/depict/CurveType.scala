@@ -1,4 +1,4 @@
-package de.vorb.depict.tracing
+package de.vorb.depict
 
 sealed trait CurveType
 

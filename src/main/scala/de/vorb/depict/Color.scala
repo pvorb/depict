@@ -1,4 +1,4 @@
-package de.vorb.depict.tracing
+package de.vorb.depict
 
 class Color(val argb: Int) extends AnyVal {
   def isBlack = argb == 0xFF000000

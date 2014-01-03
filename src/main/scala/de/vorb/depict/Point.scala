@@ -1,4 +1,4 @@
-package de.vorb.depict.tracing
+package de.vorb.depict
 
 import scala.Numeric._
 
@@ -20,13 +20,27 @@ case class Point[T](x: T, y: T)(implicit num: Numeric[T]) {
 
 object Point {
   implicit class RichPoint(val p: Point[Int]) {
-    def isVertex(img: Bitmap) = {
+    def isVertex(implicit img: Bitmap) = {
       val nw = img(p.x - 1, p.y - 1)
       val ne = img(p.x, p.y - 1)
       val se = img(p.x, p.y)
       val sw = img(p.x - 1, p.y)
 
       (nw.argb ^ ne.argb ^ se.argb ^ sw.argb) != 0
+    }
+
+    def toLeft: Point[Int] = this.p match {
+      case Point(1, 0)  => Point(0, -1)
+      case Point(0, -1) => Point(-1, 0)
+      case Point(-1, 0) => Point(0, 1)
+      case Point(0, 1)  => Point(1, 0)
+    }
+
+    def toRight: Point[Int] = this.p match {
+      case Point(1, 0)  => Point(0, 1)
+      case Point(0, 1)  => Point(-1, 0)
+      case Point(-1, 0) => Point(0, -1)
+      case Point(0, -1) => Point(1, 0)
     }
   }
 }

@@ -17,20 +17,28 @@ case class Edge(from: Point[Int], to: Point[Int]) {
       case Some(TurnDirection.Right) => Edge(to, to + (to - from).toRight)
     }
 
+  def leftPoint: Point[Int] = direction match {
+    case EdgeDirection.Up    => Point(from.x - 1, from.y - 1)
+    case EdgeDirection.Right => Point(from.x, from.y - 1)
+    case EdgeDirection.Down  => from
+    case EdgeDirection.Left  => to
+  }
+
+  def rightPoint: Point[Int] = direction match {
+    case EdgeDirection.Up    => to
+    case EdgeDirection.Right => from
+    case EdgeDirection.Down  => Point(from.x - 1, from.y)
+    case EdgeDirection.Left  => Point(from.x - 1, from.y - 1)
+  }
+
   /**
-   * Determines if two points a and b form an edge.
+   * Determines if two points a and b form a valid edge.
    */
-  def isValid(implicit img: Bitmap): Boolean = {
+  def isValidEdge(implicit img: Bitmap): Boolean = {
     if ((from distanceTo to) != 1)
       false
-    else if (from.x < to.x)
-      img(from.x, from.y - 1).isBlack && img(from.x, from.y).isWhite
-    else if (from.x > to.x)
-      img(to.x, to.y).isBlack && img(to.x, to.y - 1).isWhite
-    else if (from.y < to.y)
-      img(to.x - 1, to.y).isBlack && img(to.x, to.y).isWhite
     else
-      img(from.x, from.y).isBlack && img(from.x - 1, from.y).isWhite
+      rightPoint.isWhite && leftPoint.isBlack
   }
 }
 

@@ -29,6 +29,10 @@ object Point {
       (nw.argb ^ ne.argb ^ se.argb ^ sw.argb) != 0
     }
 
+    def color(implicit img: Bitmap): Color = img(p.x, p.y)
+    def isBlack(implicit img: Bitmap) = color.isBlack
+    def isWhite(implicit img: Bitmap) = color.isWhite
+
     def toLeft: Point[Int] = this.p match {
       case Point(1, 0)  => Point(0, -1)
       case Point(0, -1) => Point(-1, 0)

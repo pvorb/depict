@@ -3,8 +3,6 @@ package de.vorb.depict
 class Color(val argb: Int) extends AnyVal {
   def isBlack = argb == 0xFF000000
   def isWhite = argb == 0xFFFFFFFF
-  def isBinary = isBlack || isWhite
-  def isNonBinary = !isBinary
 }
 
 object Color {

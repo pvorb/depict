@@ -16,6 +16,15 @@ class Bitmap(val original: BufferedImage, defaultColor: Color = Color.white) {
       original.setRGB(x, y, color.argb)
   }
 
+  def invert(x: Int, y: Int): Unit =
+    original.setRGB(x, y, original.getRGB(x, y) ^ 0x00FFFFFF)
+
+  def invertLine(y: Int, x0: Int, x1: Int): Unit = {
+    (x0 until x1) foreach { x =>
+      invert(x, y)
+    }
+  }
+
   def withDefault(color: Color) =
     if (color == defaultColor)
       Bitmap.this
@@ -24,4 +33,10 @@ class Bitmap(val original: BufferedImage, defaultColor: Color = Color.white) {
 
   def width = original.getWidth
   def height = original.getHeight
+
+  def clear(color: Color = defaultColor) {
+    val g = original.getGraphics
+    g.setColor(new java.awt.Color(color.argb))
+    g.fillRect(0, 0, width, height)
+  }
 }

@@ -15,6 +15,12 @@ case class Point[T](x: T, y: T)(implicit num: Numeric[T]) {
     math.sqrt(xDiff * xDiff + yDiff * yDiff)
   }
 
+  def maxDistanceTo(other: Point[T]): Double = {
+    val xDiff = num.toDouble(x) - num.toDouble(other.x)
+    val yDiff = num.toDouble(y) - num.toDouble(other.y)
+    math.max(xDiff, yDiff)
+  }
+
   override def toString = s"($x, $y)"
 }
 
